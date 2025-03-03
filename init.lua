@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -234,6 +234,15 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'akinsho/bufferline.nvim',
   'nvim-tree/nvim-web-devicons',
+  'pwntester/octo.nvim',
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'nvim-telescope/telescope.nvim',
+    { 'nvim-tree/nvim-web-devicons', enabled = true },
+  },
+  'tpope/vim-dadbod',
+  'rest-nvim/rest.nvim',
+  'akinsho/toggleterm.nvim',
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -894,6 +903,13 @@ require('lazy').setup({
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
+    opts = {
+      transparent = true,
+      styles = {
+        sidebars = 'transparent',
+        floats = 'transparent',
+      },
+    },
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       ---@diagnostic disable-next-line: missing-fields
@@ -1031,7 +1047,7 @@ require('lazy').setup({
 require('presence').setup {
   -- General options
   auto_update = true, -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
-  neovim_image_text = 'why are you reading this buddy?', -- Text displayed when hovered over the Neovim image
+  neovim_image_text = 'hey !', -- Text displayed when hovered over the Neovim image
   main_image = 'file', -- Main image display (either "neovim" or "file")
   -- client_id           = "793271441293967371",       -- Use your own Discord application client id (not recommended)
   log_level = nil, -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
@@ -1053,11 +1069,29 @@ require('presence').setup {
 }
 
 -- disable netrw at the very start of your init.lua
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrw = 0
+vim.g.loaded_netrwPlugin = 0
 
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
 
 -- empty setup using defaults
-require('nvim-tree').setup()
+require('nvim-tree').setup {
+  view = {
+    width = 30,
+    side = 'left',
+  },
+  hijack_netrw = true,
+  update_focused_file = { enable = true },
+}
+require('bufferline').setup {}
+require('octo').setup()
+require('toggleterm').setup {
+  size = 15,
+  open_mapping = [[<C-\>]],
+  direction = 'horizontal',
+  shade_terminals = true,
+}
+
+-- nvim tree keymap
+vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
