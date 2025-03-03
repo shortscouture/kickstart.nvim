@@ -240,9 +240,26 @@ require('lazy').setup({
     'nvim-telescope/telescope.nvim',
     { 'nvim-tree/nvim-web-devicons', enabled = true },
   },
-  'tpope/vim-dadbod',
+  'tpope/vim-dadbod', 
   'rest-nvim/rest.nvim',
   'akinsho/toggleterm.nvim',
+  'kristijanhusak/vim-dadbod-ui',
+  dependencies = {
+    {'tpope/vim-dadbod', lazy = true},
+    {'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }
+  },
+  cmd = {
+    'DBUI',
+    'DBUIToggle',
+    'DBUIAddConnection',
+    'DBUIFindBuffer',
+  }, 
+  init = function()
+    -- Your DBUI configuration
+    vim.g.db_ui_use_nerd_fonts = 1
+  end,
+},
+
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
