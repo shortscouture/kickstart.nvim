@@ -246,7 +246,7 @@ require('lazy').setup({
   'kristijanhusak/vim-dadbod-ui',
   dependencies = {
     {'tpope/vim-dadbod', lazy = true},
-    {'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }
+    {'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
   },
   cmd = {
     'DBUI',
@@ -1035,7 +1035,7 @@ require('lazy').setup({
   -- Or use telescope!
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
-}, {
+ { 
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
@@ -1102,7 +1102,6 @@ require('nvim-tree').setup {
   update_focused_file = { enable = true },
 }
 require('bufferline').setup {}
-require('octo').setup()
 require('toggleterm').setup {
   size = 15,
   open_mapping = [[<C-\>]],
