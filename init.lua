@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -229,7 +229,20 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
+  'andweeb/presence.nvim',
+  'nvim-tree/nvim-tree.lua',
+  'tpope/vim-fugitive',
+  'akinsho/bufferline.nvim',
+  'nvim-tree/nvim-web-devicons',
+  'pwntester/octo.nvim',
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'nvim-telescope/telescope.nvim',
+    { 'nvim-tree/nvim-web-devicons', enabled = true },
+  },
+  'tpope/vim-dadbod',
+  'rest-nvim/rest.nvim',
+  'akinsho/toggleterm.nvim',
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -890,6 +903,13 @@ require('lazy').setup({
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
+    opts = {
+      transparent = true,
+      styles = {
+        sidebars = 'transparent',
+        floats = 'transparent',
+      },
+    },
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       ---@diagnostic disable-next-line: missing-fields
@@ -1022,3 +1042,56 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--
+-- The setup config table shows all available config options with their default values:
+require('presence').setup {
+  -- General options
+  auto_update = true, -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
+  neovim_image_text = 'hey !', -- Text displayed when hovered over the Neovim image
+  main_image = 'file', -- Main image display (either "neovim" or "file")
+  -- client_id           = "793271441293967371",       -- Use your own Discord application client id (not recommended)
+  log_level = nil, -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
+  debounce_timeout = 10, -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
+  enable_line_number = false, -- Displays the current line number instead of the current project
+  blacklist = {}, -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
+  buttons = true, -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
+  file_assets = {}, -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
+  show_time = true, -- Show the timer
+
+  -- Rich Presence text options
+  -- editing_text        = "Editing %s",               -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
+  file_explorer_text = 'Browsing %s', -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
+  -- git_commit_text     = "Committing changes",       -- Format string rendered when committing changes in git (either string or function(filename: string): string)
+  -- plugin_manager_text = "Managing plugins",         -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
+  -- reading_text        = "Reading %s",               -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
+  -- workspace_text      = "Working on %s",            -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
+  --  line_number_text    = "Line %s out of %s",        -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
+}
+
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 0
+vim.g.loaded_netrwPlugin = 0
+
+-- optionally enable 24-bit colour
+vim.opt.termguicolors = true
+
+-- empty setup using defaults
+require('nvim-tree').setup {
+  view = {
+    width = 30,
+    side = 'left',
+  },
+  hijack_netrw = true,
+  update_focused_file = { enable = true },
+}
+require('bufferline').setup {}
+require('octo').setup()
+require('toggleterm').setup {
+  size = 15,
+  open_mapping = [[<C-\>]],
+  direction = 'horizontal',
+  shade_terminals = true,
+}
+
+-- nvim tree keymap
+vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
