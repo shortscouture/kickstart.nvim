@@ -1091,6 +1091,7 @@ vim.g.loaded_netrwPlugin = 0
 
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
+vim.cmd("syntax enable")
 
 -- empty setup using defaults
 require('nvim-tree').setup {
@@ -1111,3 +1112,9 @@ require('toggleterm').setup {
 
 -- nvim tree keymap
 vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+-- nvim keymap no mouse and arrows
+vim.keymap.set("", "<up>", "<nop>", { noremap = true })
+vim.keymap.set("", "<down>", "<nop>", { noremap = true })
+vim.keymap.set("i", "<up>", "<nop>", { noremap = true })
+vim.keymap.set("i", "<down>", "<nop>", { noremap = true })
+
